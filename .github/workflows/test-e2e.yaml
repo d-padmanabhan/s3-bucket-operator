@@ -12,7 +12,7 @@ permissions:
 jobs:
   test_e2e:
     name: Kind E2E
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
