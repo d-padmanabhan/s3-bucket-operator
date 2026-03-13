@@ -1,0 +1,137 @@
+---
+# Pre-commit hooks configuration
+# Install: pre-commit install
+# Update:  pre-commit autoupdate
+# Run:     pre-commit run --all-files
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        name: Trim trailing whitespace
+      - id: end-of-file-fixer
+        name: Fix end-of-file newline
+      - id: check-yaml
+        name: Check YAML syntax
+        args: [--allow-multiple-documents]
+      - id: check-json
+        name: Check JSON syntax
+      - id: check-merge-conflict
+        name: Check for merge conflict markers
+      - id: detect-private-key
+        name: Detect Private Keys
+      - id: detect-aws-credentials
+        name: Detect AWS Credentials
+        args: [--allow-missing-credentials]
+      - id: mixed-line-ending
+        name: Normalize line endings (LF)
+        args: [--fix=lf]
+      - id: check-added-large-files
+        name: Check added large files
+      - id: check-executables-have-shebangs
+        name: Check executables have shebangs
+      - id: check-symlinks
+        name: Check symlinks
+
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.48.0
+    hooks:
+      - id: markdownlint
+        name: Markdownlint
+        args: ["--config", ".markdownlint.yaml"]
+        stages: [pre-commit, pre-push]
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.38.0
+    hooks:
+      - id: yamllint
+        name: YAML Lint
+        args: ["-c", ".yamllint.yaml"]
+        files: \.(yaml)$
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.11
+    hooks:
+      - id: actionlint
+        name: Actionlint (GitHub Actions)
+        args: ["-config-file", ".github/actionlint.yaml"]
+
+  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+    rev: v9.24.0
+    hooks:
+      - id: commitlint
+        name: Commitlint
+        stages: [commit-msg]
+        additional_dependencies: ["@commitlint/config-conventional"]
+
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.37.0
+    hooks:
+      - id: check-github-workflows
+        name: Validate GitHub workflows
+        stages: [pre-push]
+      - id: check-dependabot
+        name: Validate Dependabot config
+        stages: [pre-push]
+
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.11.0.1
+    hooks:
+      - id: shellcheck
+        name: ShellCheck (shell linter)
+        files: \.sh$
+        args: [--severity=warning]
+
+  - repo: https://github.com/scop/pre-commit-shfmt
+    rev: v3.12.0-2
+    hooks:
+      - id: shfmt
+        name: shfmt (shell formatter)
+        files: \.sh$
+        args: ["-l", "-w", "-i", "2"]
+
+  - repo: https://github.com/gitguardian/ggshield
+    rev: v1.48.0
+    hooks:
+      - id: ggshield
+        name: Secret Scan (ggshield)
+        language_version: python3
+        stages: [pre-push]
+
+  - repo: local
+    hooks:
+      - id: pre-commit-autoupdate
+        name: Pre-commit autoupdate + run all files
+        language: system
+        entry: bash -lc 'pre-commit autoupdate && pre-commit run --all-files'
+        pass_filenames: false
+        stages: [manual]
+
+      - id: gofmt
+        name: Go fmt (gofmt -s)
+        language: system
+        entry: bash -lc 'set -euo pipefail; gofmt -s -w .'
+        pass_filenames: false
+        files: \.go$
+
+      - id: go-vet
+        name: Go vet
+        language: system
+        entry: bash -lc 'set -euo pipefail; go vet ./...'
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: go-test-race
+        name: Go test (race)
+        language: system
+        entry: bash -lc 'set -euo pipefail; go test -race ./...'
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: go-mod-tidy-check
+        name: Go mod tidy consistency check
+        language: system
+        entry: bash -lc 'set -euo pipefail; go mod tidy && git diff --exit-code go.mod go.sum'
+        pass_filenames: false
+        stages: [pre-push]

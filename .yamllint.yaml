@@ -1,0 +1,21 @@
+---
+extends: default
+
+rules:
+  # GitHub Actions uses `on:` which is a truthy key in YAML.
+  truthy: disable
+
+  # Kubebuilder/kustomize-generated manifests do not consistently include `---`.
+  document-start: disable
+
+  # Generated Kubernetes YAML frequently fails yamllint's indentation checks
+  # while still being valid YAML consumed by kubectl/kustomize.
+  indentation: disable
+
+  # Avoid noisy failures on long URLs and generated OpenAPI schemas.
+  line-length:
+    max: 200
+    level: warning
+
+  # Allow commented example blocks without strict indentation.
+  comments-indentation: disable

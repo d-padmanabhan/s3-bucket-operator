@@ -1,0 +1,5 @@
+# CODEOWNERS are automatically requested as reviewers for pull requests
+# that touch the defined paths.
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+* @d-padmanabhan

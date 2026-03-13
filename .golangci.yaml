@@ -1,0 +1,76 @@
+version: "2"
+run:
+  timeout: 5m
+  concurrency: 4
+linters:
+  enable:
+    - asciicheck
+    - asasalint
+    - bidichk
+    - bodyclose
+    - contextcheck
+    - copyloopvar
+    - durationcheck
+    - errcheck
+    - errchkjson
+    - errorlint
+    - exhaustive
+    - govet
+    - gocheckcompilerdirectives
+    - gochecksumtype
+    - gosec
+    - gosmopolitan
+    - ineffassign
+    - loggercheck
+    - makezero
+    - musttag
+    - nilerr
+    - nilnesserr
+    - noctx
+    - protogetter
+    - reassign
+    - recvcheck
+    - revive
+    - rowserrcheck
+    - spancheck
+    - staticcheck
+    - sqlclosecheck
+    - testifylint
+    - unparam
+    - unused
+    - zerologlint
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - path: (.+)\.go$
+        text: should not use dot imports
+    paths:
+      - .github
+      - third_party$
+      - builtin$
+      - examples$
+  settings:
+    revive:
+      confidence: 0.1
+    staticcheck:
+      checks:
+        - all
+        - '-QF1008'
+formatters:
+  enable:
+    - gofmt
+  exclusions:
+    generated: lax
+    paths:
+      - .github
+      - third_party$
+      - builtin$
+      - examples$
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0

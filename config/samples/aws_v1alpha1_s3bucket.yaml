@@ -1,0 +1,15 @@
+apiVersion: aws.techfueled.dev/v1alpha1
+kind: S3Bucket
+metadata:
+  labels:
+    app.kubernetes.io/name: s3-bucket-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: my-app-assets
+spec:
+  bucketName: my-app-assets-dev-123456
+  region: us-east-1
+  versioning: true
+  forceDelete: false
+  tags:
+    app: my-app
+    env: dev

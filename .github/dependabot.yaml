@@ -1,0 +1,13 @@
+---
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    commit-message:
+      prefix: "ci(deps): "
+    schedule:
+      interval: weekly
+      day: friday
+      time: "00:00"
+      timezone: UTC
+    open-pull-requests-limit: 10
