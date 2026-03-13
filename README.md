@@ -25,6 +25,10 @@ The `S3Bucket` spec currently supports:
 
 Samples live in `config/samples/`.
 
+## Concepts
+
+If you’re new to operators/Kubebuilder terms, see `docs/concepts.md`.
+
 ## Architecture
 
 ### Runtime and ownership view
